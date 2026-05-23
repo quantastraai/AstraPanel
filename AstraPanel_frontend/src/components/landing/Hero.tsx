@@ -1,37 +1,42 @@
-import { Link } from 'react-router-dom'
-import { DashboardPreview } from './DashboardPreview'
+import { Navbar } from './Navbar'
+import { AIInsightsCard, HeroOrb, ProfileCard } from './HeroShowcase'
 
 export function Hero() {
   return (
-    <section className="hero">
-      <div className="landing__container">
-        <div className="hero__badge">
-          <span className="hero__badge-dot" />
-          Revenue · Transactions · Expenses · Markets · Reports
-        </div>
+    <section className="landing-hero">
+      <div className="landing-hero__glow landing-hero__glow--left" aria-hidden="true" />
+      <div className="landing-hero__glow landing-hero__glow--right" aria-hidden="true" />
+      <div className="landing-hero__grid" aria-hidden="true" />
 
-        <h1 className="hero__title">
-          Finance analytics, <span>one panel</span>
+      <Navbar className="landing-hero__nav" />
+
+      <div className="hero-content">
+        <h1 className="hero-title">
+          Powering the Future
+          <br />
+          <span className="hero-title__line">
+            of{' '}
+            <span className="hero-title__finance">
+              <span className="hero-title__finance-corner" aria-hidden="true" />
+              <span className="hero-title__finance-corner" aria-hidden="true" />
+              <span className="hero-title__finance-corner" aria-hidden="true" />
+              <span className="hero-title__finance-corner" aria-hidden="true" />
+              Finance
+            </span>
+          </span>
         </h1>
-
-        <p className="hero__subtitle">
-          AstraPanel helps you track revenue charts, manage transactions, control
-          expenses, watch crypto and stocks, and generate reports — all from a single
-          dashboard by QuantAstraAI.
+        <p className="hero-subtitle">
+          <span className="hero-subtitle__line">AI-powered finance for modern teams.</span>
+          <span className="hero-subtitle__line">Spending and insights in one dashboard.</span>
         </p>
-
-        <div className="hero__cta">
-          <Link to="/dashboard" className="btn btn--primary btn--lg">
-            Open dashboard
-          </Link>
-          <a href="#features" className="btn btn--ghost btn--lg">
-            See all modules
-          </a>
-        </div>
-        <p className="hero__note">Free trial · Revenue, expenses &amp; reports included</p>
-
-        <DashboardPreview />
       </div>
+
+      <div id="demo" className="orbit-container">
+        <HeroOrb />
+      </div>
+
+      <AIInsightsCard className="float-card left-card-bottom" />
+      <ProfileCard className="float-card right-card-bottom" />
     </section>
   )
 }

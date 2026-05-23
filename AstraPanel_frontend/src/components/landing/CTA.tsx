@@ -1,6 +1,6 @@
 export function CTA() {
   return (
-    <section className="section">
+    <section id="pricing" className="section">
       <div className="landing__container">
         <div className="cta-box">
           <h2 className="cta-box__title">

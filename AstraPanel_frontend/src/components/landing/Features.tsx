@@ -1,55 +1,40 @@
-const MODULES = [
+const FEATURES = [
   {
-    id: 'revenue-charts',
-    icon: '📈',
-    title: 'Revenue charts',
-    text: 'Track income trends with daily, monthly, and yearly charts. Compare periods and spot growth at a glance.',
+    icon: '🤖',
+    title: 'AI Analytics',
+    text: 'Let AI surface trends, anomalies, and forecasts from your financial data — so you act on insight, not guesswork.',
   },
   {
-    id: 'transactions',
-    icon: '💳',
-    title: 'Transactions',
-    text: 'View, filter, and search every payment — incoming and outgoing — with smart categorization and tags.',
+    icon: '💰',
+    title: 'Finance Tracking',
+    text: 'Track revenue, expenses, and cash flow in one place with clear categories, budgets, and period comparisons.',
   },
   {
-    id: 'expenses',
-    icon: '📉',
-    title: 'Expenses',
-    text: 'Monitor spending by category, vendor, and budget. Set limits and get alerts before you overspend.',
+    icon: '⚡',
+    title: 'Real Time Insights',
+    text: 'See live balances, transactions, and market moves as they happen — with alerts when it matters most.',
   },
-  {
-    id: 'markets',
-    icon: '₿',
-    title: 'Crypto & stock widgets',
-    text: 'Live prices for BTC, ETH, NIFTY, and global equities. Pin favorites to your dashboard home screen.',
-  },
-  {
-    id: 'reports',
-    icon: '📄',
-    title: 'Reports',
-    text: 'Export P&L, cash flow, and tax-ready summaries as PDF or CSV — scheduled or on demand.',
-  },
-]
+] as const
 
 export function Features() {
   return (
     <section id="features" className="section">
       <div className="landing__container section--center">
-        <p className="section__eyebrow">Modules</p>
-        <h2 className="section__title">Built for real finance analytics</h2>
+        <p className="section__eyebrow">Features</p>
+        <h2 className="section__title">Everything you need to run smarter finance</h2>
         <p className="section__desc">
-          Revenue, transactions, expenses, markets, and reports — everything your
-          team needs in one AstraPanel workspace.
+          AI-powered analytics, unified tracking, and real-time insights — built for
+          modern businesses on AstraPanel.
         </p>
 
-        <div className="features-grid">
-          {MODULES.map((m) => (
-            <article key={m.id} id={m.id} className="feature-card">
+        <div className="features-grid features-grid--3">
+          {FEATURES.map((feature) => (
+            <article key={feature.title} className="feature-card">
               <div className="feature-card__icon" aria-hidden="true">
-                {m.icon}
+                {feature.icon}
               </div>
-              <h3 className="feature-card__title">{m.title}</h3>
-              <p className="feature-card__text">{m.text}</p>
+              <h3 className="feature-card__title">{feature.title}</h3>
+              <p className="feature-card__text">{feature.text}</p>
             </article>
           ))}
         </div>

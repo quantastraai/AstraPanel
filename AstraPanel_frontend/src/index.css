@@ -41,12 +41,49 @@ body {
   font-size: 16px;
   line-height: 1.6;
   color: var(--text);
-  background: var(--bg-deep);
+  background: #020617;
   -webkit-font-smoothing: antialiased;
 }
 
 #root {
   min-height: 100svh;
+  background: #020617;
+}
+
+.app-shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+}
+
+.app-shell__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, #030712 0%, #020617 100%);
+}
+
+.app-shell > :not(.app-shell__backdrop) {
+  position: relative;
+  z-index: 1;
+}
+
+.route-blur-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  background: rgba(2, 6, 23, 0.48);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.page-transition {
+  width: 100%;
+  min-height: 100svh;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 a {
