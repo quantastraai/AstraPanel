@@ -82,7 +82,8 @@ export function DashboardTopbar() {
       <div className="dashboard-topbar__actions">
         {TOPBAR_ACTIONS.map((action) => {
           const { id, label, Icon } = action
-          const unreadCount = 'unreadCount' in action ? action.unreadCount : 0
+          const unreadCount: number =
+            'unreadCount' in action ? action.unreadCount : 0
           const badgeLabel =
             unreadCount > 0
               ? `${label}, ${unreadCount} unread notification${unreadCount === 1 ? '' : 's'}`
