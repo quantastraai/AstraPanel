@@ -112,13 +112,18 @@ const WORDMARK_SRC = '/astra-wordmark-transparent.png'
 const WORDMARK_WIDTH = 642
 const WORDMARK_HEIGHT = 182
 
-export function Sidebar() {
+type SidebarProps = {
+  mobileOpen?: boolean
+  onMobileClose?: () => void
+}
+
+export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
   const [active, setActive] = useState<ActiveId>('dashboard')
   const [financeOpen, setFinanceOpen] = useState(false)
   const [pinned, setPinned] = useState(false)
   const [pinnedCollapsed, setPinnedCollapsed] = useState(false)
   const [hovered, setHovered] = useState(false)
-  const isExpanded = pinned ? !pinnedCollapsed : hovered
+  const isExpanded = mobileOpen || (pinned ? !pinnedCollapsed : hovered)
 
   useEffect(() => {
     if (isFinanceChildId(active)) setFinanceOpen(true)
@@ -153,17 +158,20 @@ export function Sidebar() {
       return
     }
     setActive(id)
+    onMobileClose?.()
   }
 
   const handleFlyoutSelect = (id: FinanceChildId) => {
     setActive(id)
     setFinanceOpen(true)
+    onMobileClose?.()
   }
 
   const sidebarClass = [
     'dashboard-sidebar',
     isExpanded ? 'dashboard-sidebar--expanded' : '',
     pinned ? 'dashboard-sidebar--pinned' : '',
+    mobileOpen ? 'dashboard-sidebar--mobile-open' : '',
   ]
     .filter(Boolean)
     .join(' ')

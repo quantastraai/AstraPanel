@@ -1,4 +1,4 @@
-import { Bell, ChevronRight, PanelsTopLeft, Search, Settings, Sparkles } from 'lucide-react'
+import { Bell, ChevronRight, Menu, PanelsTopLeft, Search, Settings, Sparkles } from 'lucide-react'
 
 const NOTIFICATION_UNREAD_COUNT = 3
 
@@ -24,12 +24,24 @@ function getTodayLabel() {
   })
 }
 
-export function DashboardTopbar() {
+type DashboardTopbarProps = {
+  onMenuOpen?: () => void
+}
+
+export function DashboardTopbar({ onMenuOpen }: DashboardTopbarProps) {
   const today = getTodayLabel()
 
   return (
     <header className="dashboard-topbar">
       <div className="dashboard-topbar__left">
+        <button
+          type="button"
+          className="dashboard-topbar__menu-btn"
+          aria-label="Open navigation menu"
+          onClick={onMenuOpen}
+        >
+          <Menu size={20} strokeWidth={2} aria-hidden />
+        </button>
         <nav className="dashboard-topbar__breadcrumbs" aria-label="Breadcrumb">
           {BREADCRUMBS.map((crumb, index) => (
             <span key={crumb} className="dashboard-topbar__breadcrumb-item">

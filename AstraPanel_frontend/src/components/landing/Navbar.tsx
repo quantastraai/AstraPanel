@@ -123,6 +123,19 @@ export function Navbar({ className = '' }: NavbarProps) {
                   </li>
                 ))}
               </ul>
+
+              <div className="nav__mobile-actions">
+                <button type="button" className="btn btn--ghost">
+                  Login
+                </button>
+                <Link
+                  to="/dashboard"
+                  className="btn btn--primary"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Dashboard
+                </Link>
+              </div>
             </motion.div>
           </>
         )}
