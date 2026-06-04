@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import '../styles/dashboard.css'
 import '../styles/dashboard-theme.css'
+import '../styles/dashboard-polish.css'
+import '../styles/dashboard-responsive.css'
 import { Sidebar } from '../components/dashboard/Sidebar'
 import { DashboardTopbar } from '../components/dashboard/DashboardTopbar'
 import { DashboardBento } from '../components/dashboard/DashboardBento'

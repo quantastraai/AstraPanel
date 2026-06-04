@@ -1,0 +1,88 @@
+/**
+ * Dashboard polish
+ * - Desktop density: 90% browser-zoom look at 100% zoom (html 90% + px layout tuning)
+ * - Accessibility: keyboard focus rings
+ * Responsive rules live in dashboard-responsive.css
+ */
+
+@media (min-width: 769px) {
+  html:has(.dashboard-page) {
+    font-size: 90%;
+  }
+
+  .dashboard-page {
+    --d-my-cards-column-width: 342px;
+    --d-grid-size: 50px;
+  }
+
+  .dashboard-page .dashboard-topbar {
+    min-height: 65px;
+  }
+
+  .dashboard-page .dashboard-bento__card {
+    border-radius: 18px;
+  }
+
+  .dashboard-page .dashboard-bento__card-stack-stage {
+    --stack-card-width: 306px;
+    --stack-card-height: 189px;
+    --stack-card-radius: 22px;
+    --stack-card-pad: 20px;
+    max-width: 306px;
+  }
+
+  .dashboard-page .dashboard-bento__card-stack,
+  .dashboard-page .dashboard-bento__card-stack-header,
+  .dashboard-page .dashboard-bento__card-stack-dots {
+    max-width: 306px;
+  }
+
+  .dashboard-page .dashboard-bento__stat-donut-wrap {
+    width: 119px;
+    height: 119px;
+  }
+
+  .dashboard-page .dashboard-bento__credit-score-gauge {
+    max-width: 140px;
+    height: 77px;
+  }
+
+  .dashboard-page .dashboard-bento__credit-score-range {
+    max-width: 140px;
+  }
+
+  .dashboard-page .dashboard-bento__fake-chart {
+    min-height: 65px;
+    max-height: 119px;
+  }
+
+  .dashboard-page .dashboard-sidebar {
+    width: 76px;
+    margin: 11px;
+    height: calc(100svh - 22px);
+    height: calc(100svh - 22px);
+    border-radius: 22px;
+  }
+
+  .dashboard-page .dashboard-sidebar--expanded {
+    width: 236px;
+  }
+
+  .dashboard-page .dashboard-sidebar__link--active::before {
+    height: 29px;
+  }
+}
+
+.dashboard-page :focus {
+  outline: none;
+}
+
+.dashboard-page :focus-visible {
+  outline: 2px solid rgba(var(--d-gold-rgb), 0.55);
+  outline-offset: 2px;
+}
+
+.dashboard-page button:focus:not(:focus-visible),
+.dashboard-page input:focus:not(:focus-visible) {
+  outline: none;
+}

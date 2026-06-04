@@ -1,0 +1,823 @@
+/**
+ * Dashboard responsive layer
+ * Applies below desktop grid (≤1100px reflow, ≤768px mobile drawer).
+ * Desktop (≥1101px): original bento grid untouched — see dashboard.css + dashboard-polish.css.
+ * Tablet (769–1100px): fixed sidebar + scrollable main rail.
+ * Mobile (≤768px): drawer sidebar + scrollable main.
+ */
+
+/* ── Kill min-height chains on dashboard route ── */
+.page-transition:has(.dashboard-page) {
+  min-height: 0;
+}
+
+/* ── Global overflow guard (no horizontal scroll) ── */
+.dashboard-page {
+  max-width: 100vw;
+  overflow-x: clip;
+}
+
+.dashboard-page .dashboard-main {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.dashboard-page .dashboard-bento {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.dashboard-page .dashboard-bento__card {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/*
+ * Tablet only (769–1100px): fixed sidebar + scrollable main.
+ * Does NOT apply to desktop ≥1101px — main screen stays original bento grid.
+ */
+@media (min-width: 769px) and (max-width: 1100px) {
+  html:has(.dashboard-page),
+  body:has(.dashboard-page) {
+    height: 100svh;
+    max-height: 100svh;
+    overflow: hidden;
+    background-color: #0f1115;
+  }
+
+  .app-shell:has(.dashboard-page),
+  html:has(.dashboard-page) #root,
+  .page-transition:has(.dashboard-page) {
+    height: 100svh;
+    max-height: 100svh;
+    overflow: hidden;
+  }
+
+  .dashboard-page {
+    --d-sidebar-rail: 76px;
+    --d-sidebar-gap: 22px;
+    --d-sidebar-offset: calc(var(--d-sidebar-rail) + var(--d-sidebar-gap));
+    display: block;
+    height: 100svh;
+    max-height: 100svh;
+    overflow: hidden;
+  }
+
+  .dashboard-page .dashboard-sidebar {
+    position: fixed;
+    left: 11px;
+    top: 11px;
+    z-index: 50;
+    margin: 0;
+    width: var(--d-sidebar-rail);
+    height: calc(100svh - 22px);
+    max-height: calc(100svh - 22px);
+    flex-shrink: 0;
+  }
+
+  .dashboard-page .dashboard-sidebar--expanded {
+    width: 236px;
+  }
+
+  .dashboard-page .dashboard-main {
+    display: flex;
+    flex-direction: column;
+    margin-left: var(--d-sidebar-offset);
+    width: calc(100% - var(--d-sidebar-offset));
+    max-width: calc(100% - var(--d-sidebar-offset));
+    height: 100svh;
+    max-height: 100svh;
+    min-height: 0;
+    overflow-x: clip;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--d-gold-rgb, 212, 176, 106), 0.35) transparent;
+  }
+
+  .dashboard-page .dashboard-main::-webkit-scrollbar {
+    display: block;
+    width: 5px;
+  }
+
+  .dashboard-page .dashboard-main::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(var(--d-gold-rgb, 212, 176, 106), 0.32);
+  }
+
+  .dashboard-page .dashboard-main::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .dashboard-page .dashboard-bento {
+    flex: 0 0 auto;
+    height: auto;
+    min-height: 0;
+    grid-auto-rows: min-content;
+    align-content: start;
+    padding-bottom: 0.5rem;
+    overflow: visible;
+  }
+
+  .dashboard-page .dashboard-bento__card {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .dashboard-page .dashboard-bento__card--kpi,
+  .dashboard-page .dashboard-bento__card--credit-score,
+  .dashboard-page .dashboard-bento__card--chart,
+  .dashboard-page .dashboard-bento__card--credit,
+  .dashboard-page .dashboard-bento__card--transactions,
+  .dashboard-page .dashboard-bento__card--statistics {
+    height: auto;
+    max-height: none;
+    align-self: start;
+  }
+
+  .dashboard-page .dashboard-bento__stat-layout {
+    flex: 0 0 auto;
+  }
+
+  .dashboard-page .dashboard-bento__card--transactions .dashboard-bento__txn-list {
+    max-height: none;
+    flex: 0 0 auto;
+  }
+
+  .dashboard-page .dashboard-bento__fake-chart {
+    flex: 0 0 auto;
+    max-height: none;
+  }
+
+  .dashboard-page .dashboard-bento__card--credit > .dashboard-bento__cards-rail {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+  }
+
+  .dashboard-page .dashboard-bento__card-stack-stage {
+    flex: 0 0 auto;
+  }
+}
+
+/* ── Desktop (≥1101px): restore original main screen — no responsive overrides ── */
+@media (min-width: 1101px) {
+  html:has(.dashboard-page),
+  body:has(.dashboard-page) {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .app-shell:has(.dashboard-page),
+  html:has(.dashboard-page) #root,
+  .page-transition:has(.dashboard-page) {
+    height: 100svh;
+    max-height: 100svh;
+    overflow: hidden;
+  }
+
+  .dashboard-page {
+    display: flex;
+    align-items: stretch;
+    height: 100svh;
+    max-height: 100svh;
+    overflow: hidden;
+  }
+
+  .dashboard-page .dashboard-sidebar {
+    position: relative;
+    left: auto;
+    top: auto;
+    margin: 11px;
+    flex-shrink: 0;
+  }
+
+  .dashboard-page .dashboard-main {
+    flex: 1 1 0%;
+    margin-left: 0;
+    width: auto;
+    max-width: none;
+    height: auto;
+    max-height: none;
+    overflow: hidden;
+    overflow-y: hidden;
+  }
+
+  .dashboard-page .dashboard-bento {
+    flex: 1;
+    min-height: 0;
+    height: auto;
+    overflow: hidden;
+    grid-auto-rows: unset;
+    align-content: unset;
+  }
+
+  .dashboard-page .dashboard-bento__card--kpi,
+  .dashboard-page .dashboard-bento__card--credit-score,
+  .dashboard-page .dashboard-bento__card--chart,
+  .dashboard-page .dashboard-bento__card--credit,
+  .dashboard-page .dashboard-bento__card--transactions,
+  .dashboard-page .dashboard-bento__card--statistics {
+    height: 100%;
+    max-height: none;
+    align-self: stretch;
+  }
+
+  .dashboard-page .dashboard-bento__card--statistics {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dashboard-page .dashboard-bento__stat-layout {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .dashboard-page .dashboard-bento__card--transactions {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dashboard-page .dashboard-bento__card--credit > .dashboard-bento__cards-rail {
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  .dashboard-page .dashboard-bento__card-stack-stage {
+    flex: 1;
+  }
+
+  .dashboard-page .dashboard-bento__fake-chart {
+    flex: 1;
+    min-height: 72px;
+  }
+}
+
+/* ── Tablet spacing: 769px – 1100px ── */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .dashboard-page .dashboard-topbar {
+    padding-inline: clamp(0.75rem, 2vw, 1.5rem);
+    gap: clamp(0.5rem, 1.5vw, 0.75rem);
+  }
+
+  .dashboard-page .dashboard-topbar__center {
+    max-width: min(520px, 48vw);
+  }
+
+  .dashboard-page .dashboard-bento {
+    padding-inline: clamp(0.75rem, 2.5vw, 1.5rem);
+    gap: clamp(0.5rem, 1.2vw, 0.75rem);
+  }
+
+  .dashboard-page .dashboard-bento__card--kpi {
+    max-height: none;
+  }
+
+  .dashboard-page .dashboard-bento__card-stack-stage {
+    --stack-card-width: min(340px, 100%);
+    max-width: min(340px, calc(100vw - 3rem));
+  }
+
+  .dashboard-page .dashboard-bento__card-stack,
+  .dashboard-page .dashboard-bento__card-stack-header,
+  .dashboard-page .dashboard-bento__card-stack-dots {
+    max-width: min(340px, calc(100vw - 3rem));
+  }
+
+  .dashboard-page .dashboard-bento__stat-layout {
+    gap: clamp(0.5rem, 2vw, 1rem);
+  }
+}
+
+/* ── Tablet narrow: KPI row can wrap on tight widths ── */
+@media (min-width: 769px) and (max-width: 900px) {
+  .dashboard-page .dashboard-bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-page .dashboard-bento__card--revenue {
+    grid-column: 1;
+  }
+
+  .dashboard-page .dashboard-bento__card--profit {
+    grid-column: 2;
+  }
+
+  .dashboard-page .dashboard-bento__card--savings {
+    grid-column: 1 / -1;
+  }
+
+  .dashboard-page .dashboard-bento__card--credit-score {
+    grid-column: 1;
+  }
+
+  .dashboard-page .dashboard-bento__card--chart {
+    grid-column: 2;
+  }
+
+  .dashboard-page .dashboard-bento__card--credit {
+    grid-column: 1 / -1;
+  }
+
+  .dashboard-page .dashboard-bento__card--transactions {
+    grid-column: 1 / -1;
+  }
+
+  .dashboard-page .dashboard-bento__card--statistics {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ── Mobile + small tablet: ≤768px (drawer nav + scrollable main) ── */
+@media (max-width: 768px) {
+  html:has(.dashboard-page),
+  body:has(.dashboard-page) {
+    height: 100svh;
+    max-height: 100svh;
+    overflow: hidden;
+    background-color: #0f1115;
+  }
+
+  .app-shell:has(.dashboard-page),
+  html:has(.dashboard-page) #root,
+  .page-transition:has(.dashboard-page) {
+    height: 100svh;
+    max-height: 100svh;
+    overflow: hidden;
+  }
+
+  .dashboard-page {
+    --d-sidebar-offset: 0px;
+    height: 100svh;
+    max-height: 100svh;
+    overflow: hidden;
+  }
+
+  .dashboard-page .dashboard-main {
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100svh;
+    max-height: 100svh;
+    min-height: 0;
+    overflow-x: clip;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    flex: none;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--d-gold-rgb, 212, 176, 106), 0.35) transparent;
+  }
+
+  .dashboard-page .dashboard-main::-webkit-scrollbar {
+    display: block;
+    width: 5px;
+  }
+
+  .dashboard-page .dashboard-main::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(var(--d-gold-rgb, 212, 176, 106), 0.32);
+  }
+
+  /* Topbar */
+  .dashboard-page .dashboard-topbar {
+    flex-wrap: wrap;
+    row-gap: 0.75rem;
+    padding-inline: clamp(0.75rem, 4vw, 1.25rem);
+    padding-top: max(0.75rem, env(safe-area-inset-top, 0px));
+    min-height: auto;
+  }
+
+  .dashboard-page .dashboard-topbar__menu-btn {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .dashboard-page .dashboard-topbar__left {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: calc(100% - 8rem);
+  }
+
+  .dashboard-page .dashboard-topbar__breadcrumbs {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+  }
+
+  .dashboard-page .dashboard-topbar__date {
+    display: none;
+  }
+
+  .dashboard-page .dashboard-topbar__center {
+    order: 3;
+    flex: 1 1 100%;
+    max-width: none;
+    justify-content: stretch;
+    width: 100%;
+  }
+
+  .dashboard-page .dashboard-topbar__search {
+    flex: 1;
+    min-width: 0;
+    max-width: none;
+    height: 2.75rem;
+    min-height: 44px;
+  }
+
+  .dashboard-page .dashboard-topbar__ai-btn {
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .dashboard-page .dashboard-topbar__ai-btn span {
+    display: none;
+  }
+
+  .dashboard-page .dashboard-topbar__actions {
+    flex-shrink: 0;
+    gap: 0.35rem;
+  }
+
+  .dashboard-page .dashboard-topbar__btn {
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Bento stack */
+  .dashboard-page .dashboard-bento {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-auto-rows: min-content;
+    align-content: start;
+    flex: none;
+    height: auto;
+    min-height: 0;
+    gap: 0.75rem;
+    padding: 0.5rem clamp(0.75rem, 4vw, 1rem) calc(0.5rem + env(safe-area-inset-bottom, 0px));
+    overflow: visible;
+  }
+
+  .dashboard-page .dashboard-bento__card--revenue,
+  .dashboard-page .dashboard-bento__card--profit,
+  .dashboard-page .dashboard-bento__card--savings,
+  .dashboard-page .dashboard-bento__card--credit-score,
+  .dashboard-page .dashboard-bento__card--credit,
+  .dashboard-page .dashboard-bento__card--chart,
+  .dashboard-page .dashboard-bento__card--transactions,
+  .dashboard-page .dashboard-bento__card--statistics {
+    grid-column: 1;
+    grid-row: auto;
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    height: auto;
+    max-height: none;
+    min-height: 0;
+    align-self: start;
+    justify-self: stretch;
+  }
+
+  .dashboard-page .dashboard-bento__card--kpi {
+    max-height: none;
+    min-height: 7.5rem;
+  }
+
+  .dashboard-page .dashboard-bento__card--chart {
+    min-height: 14rem;
+  }
+
+  .dashboard-page .dashboard-bento__card--credit {
+    min-height: auto;
+    height: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  .dashboard-page .dashboard-bento__card--credit > .dashboard-bento__cards-rail {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+  }
+
+  .dashboard-page .dashboard-bento__card--transactions .dashboard-bento__txn-list {
+    --txn-visible-rows: 4;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .dashboard-page .dashboard-bento__card-stack-stage {
+    --stack-card-width: min(340px, calc(100vw - 2.5rem));
+    --stack-card-height: clamp(170px, 52vw, 210px);
+    max-width: 100%;
+    width: 100%;
+    padding-inline: 0.25rem;
+  }
+
+  .dashboard-page .dashboard-bento__card-stack,
+  .dashboard-page .dashboard-bento__card-stack-header,
+  .dashboard-page .dashboard-bento__card-stack-dots {
+    max-width: min(340px, calc(100vw - 2.5rem));
+    width: 100%;
+  }
+
+  .dashboard-page .dashboard-bento__stack-card,
+  .dashboard-page .dashboard-bento__stack-card--depth-1,
+  .dashboard-page .dashboard-bento__stack-card--depth-2 {
+    max-width: min(340px, calc(100vw - 2.5rem));
+    width: 100%;
+  }
+
+  .dashboard-page .dashboard-bento__stack-pan {
+    font-size: clamp(0.75rem, 3.5vw, 0.9375rem);
+    gap: clamp(0.35rem, 2vw, 0.62rem);
+  }
+
+  .dashboard-page .dashboard-bento__stack-balance {
+    font-size: clamp(1.25rem, 6vw, 1.75rem);
+  }
+
+  .dashboard-page .dashboard-bento__stat-layout {
+    flex-direction: column;
+    align-items: stretch;
+    flex: 0 0 auto;
+    gap: 1rem;
+  }
+
+  .dashboard-page .dashboard-bento__stat-donut-wrap {
+    width: min(132px, 40vw);
+    height: min(132px, 40vw);
+    margin-inline: auto;
+  }
+
+  .dashboard-page .dashboard-bento__stat-legend {
+    width: 100%;
+  }
+
+  .dashboard-page .dashboard-bento__fake-chart {
+    min-height: 5rem;
+    max-height: none;
+  }
+
+  .dashboard-page .dashboard-bento__candlestick-chart {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    padding-bottom: 0.25rem;
+  }
+
+  .dashboard-page .dashboard-bento__candle-col {
+    min-width: 2rem;
+    scroll-snap-align: center;
+  }
+
+  /* Sidebar drawer — overrides dashboard.css 641–768px inline sidebar */
+  .dashboard-page .dashboard-sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: rgba(8, 10, 14, 0.62);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+
+  .dashboard-page .dashboard-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 50;
+    width: min(280px, calc(100vw - 2.5rem));
+    height: 100svh;
+    max-height: 100svh;
+    margin: 0;
+    padding-top: max(0.85rem, env(safe-area-inset-top, 0px));
+    padding-bottom: max(0.85rem, env(safe-area-inset-bottom, 0px));
+    border-radius: 0 24px 24px 0;
+    transform: translateX(calc(-100% - 8px));
+    transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .dashboard-page .dashboard-sidebar--mobile-open {
+    transform: translateX(0);
+  }
+
+  .dashboard-page .dashboard-sidebar:not(.dashboard-sidebar--mobile-open) {
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .dashboard-page .dashboard-sidebar__link,
+  .dashboard-page .dashboard-sidebar__flyout-link {
+    min-height: 44px;
+  }
+
+  /* Finance submenu — inline below parent (no side flyout cutoff) */
+  .dashboard-page .dashboard-sidebar__item--finance {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dashboard-page .dashboard-sidebar__item--flyout-open {
+    z-index: auto;
+  }
+
+  .dashboard-page > .dashboard-sidebar:has(.dashboard-sidebar__flyout--open) {
+    z-index: 50;
+  }
+
+  .dashboard-page .dashboard-sidebar__flyout {
+    position: static;
+    left: auto;
+    top: auto;
+    z-index: auto;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    transform: none;
+    opacity: 1;
+    visibility: hidden;
+    pointer-events: none;
+    max-height: 0;
+    overflow: hidden;
+    transition:
+      max-height 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0.28s ease,
+      padding 0.28s ease;
+  }
+
+  .dashboard-page .dashboard-sidebar__flyout::before {
+    display: none;
+  }
+
+  .dashboard-page .dashboard-sidebar__flyout--open {
+    visibility: visible;
+    pointer-events: auto;
+    max-height: 16rem;
+    padding: 0.15rem 0 0.35rem 0.35rem;
+    transform: none;
+  }
+
+  .dashboard-page .dashboard-sidebar__flyout-list {
+    gap: 0.2rem;
+    padding-left: 0.65rem;
+    margin-left: 0.35rem;
+    border-left: 1px solid rgba(var(--d-gold-rgb), 0.14);
+  }
+
+  .dashboard-page .dashboard-sidebar__flyout-link {
+    width: 100%;
+    padding: 0.55rem 0.65rem;
+    border-radius: 10px;
+  }
+
+  .dashboard-page .dashboard-sidebar__item--flyout-open .dashboard-sidebar__chevron,
+  .dashboard-page .dashboard-sidebar__chevron--open {
+    transform: rotate(90deg);
+  }
+
+  .dashboard-page .dashboard-sidebar__profile {
+    min-height: 44px;
+  }
+}
+
+/* ── Small phones: ≤480px ── */
+@media (max-width: 480px) {
+  .dashboard-page .dashboard-topbar__left {
+    max-width: calc(100% - 7.5rem);
+  }
+
+  .dashboard-page .dashboard-topbar__breadcrumb-link {
+    display: none;
+  }
+
+  .dashboard-page .dashboard-topbar__breadcrumb-sep {
+    display: none;
+  }
+
+  .dashboard-page .dashboard-bento__kpi-value {
+    font-size: clamp(1.25rem, 7vw, 1.625rem);
+  }
+
+  .dashboard-page .dashboard-bento__txn-row {
+    grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    gap: 0.35rem 0.5rem;
+    padding: 0.5rem 0.35rem;
+  }
+
+  .dashboard-page .dashboard-bento__txn-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    grid-row: 1 / 3;
+    align-self: center;
+  }
+
+  .dashboard-page .dashboard-bento__txn-name {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .dashboard-page .dashboard-bento__txn-amount {
+    grid-column: 3;
+    grid-row: 1 / 3;
+    align-self: center;
+  }
+
+  .dashboard-page .dashboard-bento__txn-status {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
+  }
+
+  .dashboard-page .dashboard-bento__card-stack-add {
+    font-size: 0.5625rem;
+    padding: 0.35rem 0.5rem;
+  }
+}
+
+/* ── Extra small: ≤360px (iPhone SE, small Android) ── */
+@media (max-width: 360px) {
+  .dashboard-page .dashboard-topbar {
+    padding-inline: 0.65rem;
+  }
+
+  .dashboard-page .dashboard-bento {
+    padding-inline: 0.65rem;
+  }
+
+  .dashboard-page .dashboard-bento__card {
+    padding: 0.85rem 0.9rem;
+  }
+
+  .dashboard-page .dashboard-bento__card-stack-stage {
+    --stack-card-width: calc(100vw - 1.75rem);
+  }
+}
+
+/* ── Landscape phones ── */
+@media (max-width: 896px) and (orientation: landscape) and (max-height: 500px) {
+  .dashboard-page .dashboard-bento {
+    gap: 0.5rem;
+  }
+
+  .dashboard-page .dashboard-bento__card--kpi {
+    min-height: 6.5rem;
+  }
+
+  .dashboard-page .dashboard-bento__card--chart {
+    min-height: 10rem;
+  }
+
+  .dashboard-page .dashboard-bento__card-stack-stage {
+    --stack-card-height: 160px;
+  }
+}
+
+/* ── Ultrawide: prevent excessive stretch (2K / 4K only) ── */
+@media (min-width: 2560px) {
+  .dashboard-page .dashboard-bento,
+  .dashboard-page .dashboard-topbar {
+    max-width: 1920px;
+    margin-inline: auto;
+    width: 100%;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-page .dashboard-sidebar {
+    transition: none;
+  }
+}

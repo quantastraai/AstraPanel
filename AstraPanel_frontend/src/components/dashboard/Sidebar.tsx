@@ -254,10 +254,14 @@ export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
                 <li
                   key={item.id}
                   className={financeItemClass}
-                  onMouseEnter={() => setFinanceOpen(true)}
-                  onMouseLeave={() => {
-                    if (!isFinanceChildId(active)) setFinanceOpen(false)
-                  }}
+                  onMouseEnter={mobileOpen ? undefined : () => setFinanceOpen(true)}
+                  onMouseLeave={
+                    mobileOpen
+                      ? undefined
+                      : () => {
+                          if (!isFinanceChildId(active)) setFinanceOpen(false)
+                        }
+                  }
                 >
                   <button
                     type="button"
