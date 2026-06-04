@@ -483,7 +483,6 @@
   .dashboard-page .dashboard-bento__card--statistics {
     grid-column: 1;
     grid-row: auto;
-    position: static;
     width: 100%;
     max-width: 100%;
     min-width: 0;
@@ -494,7 +493,18 @@
     justify-self: stretch;
   }
 
+  /* KPI sparklines use position:absolute — must keep a positioned ancestor */
+  .dashboard-page .dashboard-bento__card--credit-score,
+  .dashboard-page .dashboard-bento__card--credit,
+  .dashboard-page .dashboard-bento__card--chart,
+  .dashboard-page .dashboard-bento__card--transactions,
+  .dashboard-page .dashboard-bento__card--statistics {
+    position: static;
+  }
+
   .dashboard-page .dashboard-bento__card--kpi {
+    position: relative;
+    overflow: hidden;
     max-height: none;
     min-height: 7.5rem;
   }
@@ -617,6 +627,40 @@
     transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
     visibility: visible;
     pointer-events: auto;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  /* Header + scrollable nav + fixed footer — prevents Settings/profile overlap */
+  .dashboard-page .dashboard-sidebar__header {
+    flex-shrink: 0;
+  }
+
+  .dashboard-page .dashboard-sidebar__nav {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--d-gold-rgb, 212, 176, 106), 0.28) transparent;
+  }
+
+  .dashboard-page .dashboard-sidebar__nav::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .dashboard-page .dashboard-sidebar__nav::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(var(--d-gold-rgb, 212, 176, 106), 0.3);
+  }
+
+  .dashboard-page .dashboard-sidebar__footer {
+    flex-shrink: 0;
+    margin-top: 0;
+    padding-top: 0.5rem;
+    z-index: 6;
   }
 
   .dashboard-page .dashboard-sidebar--mobile-open {

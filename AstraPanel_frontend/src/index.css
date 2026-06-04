@@ -96,6 +96,50 @@ button {
   cursor: pointer;
 }
 
+/*
+ * Touch / Android — remove default blue tap flash on all tappable UI.
+ * Keyboard users still get :focus-visible rings from component styles.
+ */
+.app-shell a[href],
+.app-shell button,
+.app-shell summary,
+.app-shell label[for],
+.app-shell select,
+.app-shell input[type='button'],
+.app-shell input[type='submit'],
+.app-shell input[type='reset'],
+.app-shell input[type='checkbox'],
+.app-shell input[type='radio'],
+.app-shell [role='button'],
+.app-shell [role='tab'],
+.app-shell [role='menuitem'],
+.app-shell [role='graphics-symbol'],
+.app-shell [tabindex]:not([tabindex='-1']),
+.app-shell .dashboard-bento__card-stack,
+.app-shell .dashboard-sidebar-overlay {
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.app-shell a[href]:focus:not(:focus-visible),
+.app-shell button:focus:not(:focus-visible),
+.app-shell summary:focus:not(:focus-visible),
+.app-shell label[for]:focus:not(:focus-visible),
+.app-shell select:focus:not(:focus-visible),
+.app-shell input[type='button']:focus:not(:focus-visible),
+.app-shell input[type='submit']:focus:not(:focus-visible),
+.app-shell input[type='reset']:focus:not(:focus-visible),
+.app-shell input[type='checkbox']:focus:not(:focus-visible),
+.app-shell input[type='radio']:focus:not(:focus-visible),
+.app-shell [role='button']:focus:not(:focus-visible),
+.app-shell [role='tab']:focus:not(:focus-visible),
+.app-shell [role='menuitem']:focus:not(:focus-visible),
+.app-shell [role='graphics-symbol']:focus:not(:focus-visible),
+.app-shell [tabindex]:not([tabindex='-1']):focus:not(:focus-visible) {
+  outline: none;
+}
+
 img {
   max-width: 100%;
   display: block;

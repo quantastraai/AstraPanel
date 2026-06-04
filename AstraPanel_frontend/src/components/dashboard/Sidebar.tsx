@@ -353,6 +353,7 @@ export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
           className="dashboard-sidebar__profile"
           aria-label="AstraPanel account — Premium plan, online"
           title="AstraPanel · Premium"
+          onClick={(e) => e.currentTarget.blur()}
         >
           <span className="dashboard-sidebar__profile-avatar-wrap">
             <span className="dashboard-sidebar__profile-avatar" aria-hidden="true">

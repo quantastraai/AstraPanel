@@ -731,7 +731,7 @@ function StackedCardsView() {
                 <div
                   key={card.id}
                   role="button"
-                  tabIndex={0}
+                  tabIndex={depth === 0 ? 0 : -1}
                   className={[
                     'dashboard-bento__stack-card',
                     `dashboard-bento__stack-card--${card.variant}`,
@@ -740,6 +740,7 @@ function StackedCardsView() {
                   onClick={(e) => {
                     e.stopPropagation()
                     setActiveIndex(index)
+                    e.currentTarget.blur()
                   }}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
@@ -882,7 +883,11 @@ function TransactionsCard() {
       <ul className="dashboard-bento__txn-list">
         {TRANSACTIONS.map((txn, index) => (
           <li key={txn.id} className="dashboard-bento__txn-item">
-            <button type="button" className="dashboard-bento__txn-row">
+            <button
+              type="button"
+              className="dashboard-bento__txn-row"
+              onClick={(e) => e.currentTarget.blur()}
+            >
               <span
                 className={`dashboard-bento__txn-avatar dashboard-bento__txn-avatar--${txn.id}`}
                 aria-hidden
@@ -1004,6 +1009,10 @@ function StatDonutChart({
             }
             onMouseEnter={() => onHover(segment.id)}
             onFocus={() => onHover(segment.id)}
+            onClick={(e) => {
+              onHover(segment.id)
+              e.currentTarget.blur()
+            }}
             tabIndex={0}
             role="graphics-symbol"
             aria-label={`${segment.label} ${segment.percent}%`}

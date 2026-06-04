@@ -1089,19 +1089,32 @@ html:has(.dashboard-page)::-webkit-scrollbar,
   flex-shrink: 0;
   width: 132px;
   height: 132px;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .dashboard-bento__stat-donut {
   display: block;
   overflow: visible;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .dashboard-bento__stat-donut-segment {
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition:
     stroke-width 0.2s ease,
     filter 0.2s ease,
     opacity 0.2s ease;
+  outline: none;
+}
+
+.dashboard-bento__stat-donut-segment:focus:not(:focus-visible) {
   outline: none;
 }
 
@@ -1321,6 +1334,9 @@ html:has(.dashboard-page)::-webkit-scrollbar,
   margin: 0;
   font-family: var(--d-font, inherit);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition:
     background 0.25s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.25s cubic-bezier(0.22, 1, 0.36, 1),
@@ -1336,6 +1352,10 @@ html:has(.dashboard-page)::-webkit-scrollbar,
 
 .dashboard-bento__card-stack-add:active {
   transform: translateY(-50%) scale(0.97);
+}
+
+.dashboard-bento__card-stack-add:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .dashboard-bento__card-stack-add:focus-visible {
@@ -1419,6 +1439,9 @@ html:has(.dashboard-page)::-webkit-scrollbar,
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  touch-action: manipulation;
   overflow: visible;
 }
 
@@ -1463,6 +1486,9 @@ html:has(.dashboard-page)::-webkit-scrollbar,
   font-family: var(--d-font, inherit);
   appearance: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  touch-action: manipulation;
   transform: none;
   transform-origin: center center;
   isolation: isolate;
@@ -1471,6 +1497,11 @@ html:has(.dashboard-page)::-webkit-scrollbar,
     transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.42s ease,
     box-shadow 0.42s ease;
+}
+
+/* Touch tap — no default blue focus ring; keyboard keeps :focus-visible */
+.dashboard-bento__stack-card:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* Physical card — top-left light reflection, noise, gold edge */
@@ -1630,11 +1661,18 @@ html:has(.dashboard-page)::-webkit-scrollbar,
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.55);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition:
     color 0.25s ease,
     background 0.25s ease,
     box-shadow 0.3s ease,
     filter 0.3s ease;
+}
+
+.dashboard-bento__stack-balance-eye:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .dashboard-bento__stack-balance-eye:hover {
@@ -1796,10 +1834,17 @@ html:has(.dashboard-page)::-webkit-scrollbar,
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition:
     color 0.2s ease,
     background 0.2s ease,
     box-shadow 0.25s ease;
+}
+
+.dashboard-bento__stack-pan-copy:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .dashboard-bento__stack-pan-copy:hover {
@@ -1923,10 +1968,17 @@ html:has(.dashboard-page)::-webkit-scrollbar,
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.16);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition:
     transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
     background 0.22s ease,
     box-shadow 0.22s ease;
+}
+
+.dashboard-bento__card-stack-dot:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .dashboard-bento__card-stack-dot--active {
@@ -2309,6 +2361,9 @@ html:has(.dashboard-page)::-webkit-scrollbar,
   text-align: left;
   font-family: var(--d-font, inherit);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition:
     background 0.28s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1);
@@ -2316,6 +2371,10 @@ html:has(.dashboard-page)::-webkit-scrollbar,
 
 .dashboard-bento__txn-row:hover {
   background: rgba(255, 255, 255, 0.06);
+}
+
+.dashboard-bento__txn-row:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .dashboard-bento__txn-row:focus-visible {
@@ -2653,11 +2712,23 @@ html:has(.dashboard-page)::-webkit-scrollbar,
   .dashboard-bento__card--statistics {
     grid-column: 1;
     grid-row: auto;
-    position: static;
     width: 100%;
     max-width: none;
     min-width: 0;
     justify-self: stretch;
+  }
+
+  .dashboard-bento__card--credit-score,
+  .dashboard-bento__card--credit,
+  .dashboard-bento__card--chart,
+  .dashboard-bento__card--transactions,
+  .dashboard-bento__card--statistics {
+    position: static;
+  }
+
+  .dashboard-bento__card--kpi {
+    position: relative;
+    overflow: hidden;
   }
 }
 
@@ -3044,6 +3115,9 @@ html:has(.dashboard-page)::-webkit-scrollbar,
   background: rgba(255, 255, 255, 0.42);
   box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  touch-action: manipulation;
   text-align: left;
   transition:
     background 0.22s ease,
@@ -3059,10 +3133,20 @@ html:has(.dashboard-page)::-webkit-scrollbar,
   padding: 0.55rem 0.75rem;
 }
 
+.dashboard-sidebar__profile:focus:not(:focus-visible) {
+  outline: none;
+}
+
 .dashboard-sidebar__profile:hover {
   background: rgba(255, 255, 255, 0.62);
   transform: scale(1.02) translateX(4px);
   box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
+@media (hover: none) {
+  .dashboard-sidebar__profile:hover {
+    transform: none;
+  }
 }
 
 .dashboard-sidebar__profile-avatar-wrap {

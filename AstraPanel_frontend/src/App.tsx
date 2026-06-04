@@ -3,6 +3,7 @@ import { AnimatePresence } from 'framer-motion'
 import { LandingPage } from './pages/LandingPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { RouteTransitionOverlay } from './components/layout/RouteTransitionOverlay'
+import { TouchFocusCleanup } from './components/layout/TouchFocusCleanup'
 
 function AppRoutes() {
   const location = useLocation()
@@ -24,6 +25,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="app-shell">
+        <TouchFocusCleanup />
         <div className="app-shell__backdrop" aria-hidden="true" />
         <AppRoutes />
       </div>
