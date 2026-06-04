@@ -509,6 +509,42 @@
     min-height: 7.5rem;
   }
 
+  /*
+   * Mobile — outer box-shadow + blurred ::before orb bleed on dark bg (Android).
+   * Use inset depth only, clipped inside each card.
+   */
+  .dashboard-page .dashboard-bento__card,
+  .dashboard-page .dashboard-bento__card--kpi,
+  .dashboard-page .dashboard-bento__card--credit-score,
+  .dashboard-page .dashboard-bento__card--chart,
+  .dashboard-page .dashboard-bento__card--transactions,
+  .dashboard-page .dashboard-bento__card--statistics {
+    isolation: isolate;
+    contain: paint;
+    overflow: hidden;
+    --d-card-shadow-mobile-inset:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+      inset 0 10px 24px rgba(0, 0, 0, 0.14);
+    box-shadow: var(--d-card-shadow-mobile-inset);
+    transform: none;
+  }
+
+  .dashboard-page .dashboard-bento__card:hover,
+  .dashboard-page .dashboard-bento__card--kpi:hover,
+  .dashboard-page .dashboard-bento__card--chart:hover,
+  .dashboard-page .dashboard-bento__card--credit-score:hover,
+  .dashboard-page .dashboard-bento__card--transactions:hover,
+  .dashboard-page .dashboard-bento__card--statistics:hover {
+    transform: none;
+    box-shadow: var(--d-card-shadow-mobile-inset);
+    z-index: auto;
+  }
+
+  .dashboard-page .dashboard-bento__card::before {
+    display: none;
+  }
+
   .dashboard-page .dashboard-bento__card--chart {
     min-height: 14rem;
   }
